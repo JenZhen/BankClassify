@@ -40,6 +40,7 @@ class BankClassify():
         self.inc = self.prev_data[self.prev_data.amount > 0]
         self.out = self.prev_data[self.prev_data.amount < 0]
         self.out.amount = self.out.amount.abs()
+        print(self.out.amount)
 
         self.inc_noignore = self.inc[self.inc.cat != 'Ignore']
         self.inc_noexpignore = self.inc[(self.inc.cat != 'Ignore') & (self.inc.cat != 'Expenses')]
@@ -86,7 +87,6 @@ class BankClassify():
             else:
                 guess = ""
 
-
             # Print list of categories
             print(chr(27) + "[2J")
             print(cats_table)
@@ -95,7 +95,7 @@ class BankClassify():
             print("On: %s\t %.2f\n%s" % (row['date'], row['amount'], row['desc']))
             print(Fore.RED  + Style.BRIGHT + "My guess is: " + str(guess) + Fore.RESET)
 
-            input_value = input("> ")
+            input_value = input("< ")
 
             if input_value.lower() == 'q':
                 # If the input was 'q' then quit
@@ -135,7 +135,7 @@ class BankClassify():
         """Read a file in the plain text format that Santander provides downloads in.
 
         Returns a pd.DataFrame with columns of 'date', 'desc' and 'amount'."""
-        with open(filename, errors='replace') as f:
+        with open(filename) as f:
             lines = f.readlines()
 
         dates = []
